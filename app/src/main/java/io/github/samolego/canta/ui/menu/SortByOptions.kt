@@ -21,8 +21,8 @@ data class SortOption(
 enum class SortField {
     NAME,
     PACKAGE_NAME,
-    VERSION,
-    SIZE
+    SIZE,
+    BADGE
 }
 
 enum class SortDirection {
@@ -37,8 +37,8 @@ val sortOptions = listOf(
     SortOption(SortField.PACKAGE_NAME, SortDirection.DESCENDING, "Package: Z → A"),
     SortOption(SortField.SIZE, SortDirection.ASCENDING, "Size: Low → High"),
     SortOption(SortField.SIZE, SortDirection.DESCENDING, "Size: High → Low"),
-    SortOption(SortField.VERSION, SortDirection.ASCENDING, "Version: Low → High"),
-    SortOption(SortField.VERSION, SortDirection.DESCENDING, "Version: High → Low")
+    SortOption(SortField.BADGE, SortDirection.ASCENDING, "Badge: Recommended → System"),
+    SortOption(SortField.BADGE, SortDirection.DESCENDING, "Badge: System → Recommended")
 )
 
 @Composable

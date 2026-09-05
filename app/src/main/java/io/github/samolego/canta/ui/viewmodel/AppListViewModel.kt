@@ -19,6 +19,7 @@ import io.github.samolego.canta.ui.menu.SortOption
 import io.github.samolego.canta.util.BloatData
 import io.github.samolego.canta.util.BloatUtils
 import io.github.samolego.canta.util.LogUtils
+import io.github.samolego.canta.util.RemovalRecommendation
 import io.github.samolego.canta.util.apps.AppInfo
 import io.github.samolego.canta.util.apps.Filter
 import kotlinx.coroutines.Dispatchers
@@ -66,8 +67,10 @@ class AppListViewModel : ViewModel() {
         val comparator = when (sortedBy.field) {
             SortField.NAME -> nameComparator
             SortField.PACKAGE_NAME -> compareBy(AppInfo::packageName)
-            SortField.VERSION -> compareBy(AppInfo::versionCode)
             SortField.SIZE -> compareBy(AppInfo::size)
+            SortField.BADGE -> compareBy {
+                getRecommendationRank(it.removalInfo)
+            }
         }
 
         val finalComparator =
@@ -203,6 +206,20 @@ class AppListViewModel : ViewModel() {
                         it
                     }
                 }
+    }
+
+
+    private fun getRecommendationRank(
+        recommendation: RemovalRecommendation?
+    ): Int {
+        return when (recommendation) {
+            RemovalRecommendation.RECOMMENDED -> 0
+            RemovalRecommendation.ADVANCED -> 1
+            RemovalRecommendation.EXPERT -> 2
+            RemovalRecommendation.UNSAFE -> 3
+            RemovalRecommendation.SYSTEM -> 4
+            null -> 5
+        }
     }
 }
 
